@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react"
 import "./Login.css";
+import {withRouter} from "react-router-dom"
 
 var CryptoJS = require("crypto-js");
 
-function login(secretkey, password) {
-    //нужно добавить проверку секретного ключа
-    localStorage.setItem('sc', CryptoJS.AES.encrypt(secretkey, password))
-    window.location.href = 'http://localhost:3000/wallet';
-}
 
-const Login = () => {
+
+const Login = ({ history }) => {
     const [secretkey, setSecretkey] = useState(``);
     const [secretkeyFocus, setSecretkeyFocus] = useState(false);
     const [secretkeyError, setSecretkeyError] = useState(false);
     const [password, setPassword] = useState(``);
     const [passwordFocus, setPasswordFocus] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+
+    function login(secretkey, password) {
+        //нужно добавить проверку секретного ключа
+        localStorage.setItem('sc', CryptoJS.AES.encrypt(secretkey, password))
+        history.push("/wallet")
+    }
 
     useEffect(() => {
         keyValidation(secretkey);
@@ -73,10 +76,10 @@ const Login = () => {
                         <div className="login__enter">
                             <button
                                 onClick={() => {
-                                    if (!passwordError && !secretkeyError && passwordFocus && secretkeyFocus ) {
+                                    if (!passwordError && !secretkeyError && passwordFocus && secretkeyFocus) {
                                         login(secretkey, password)
                                     }
-                                    else{
+                                    else {
                                         setPasswordFocus(true)
                                         setSecretkeyFocus(true)
                                     }
@@ -92,4 +95,6 @@ const Login = () => {
     )
 }
 
-export default Login;
+let LoginPage = withRouter(Login);
+
+export default LoginPage;

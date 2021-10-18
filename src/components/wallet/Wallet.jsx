@@ -4,8 +4,9 @@ import { SendToPool } from "./SendToPool";
 import toast, { Toaster } from 'react-hot-toast';
 
 import "./Wallet.css"
+import { withRouter } from "react-router-dom";
 
-const Wallet = () => {
+const Wallet = ({history}) => {
     const [message, setMessage] = useState("")           //При каждом изменении message появляется сообщение об ошибке
     const [poolCard, setPoolCard] = useState(false)
     useEffect(() => {
@@ -35,7 +36,7 @@ const Wallet = () => {
                 <button
                 onClick={() => {
                     localStorage.removeItem("sc")
-                    window.location.href = 'http://localhost:3000/login';
+                    history.push("/login")
                 }}
                 className="wallet__exit">
                     Выход
@@ -58,4 +59,6 @@ const Wallet = () => {
     )
 }
 
-export default Wallet;
+let WalletPage=withRouter(Wallet);
+
+export default WalletPage;
