@@ -1,22 +1,17 @@
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import LoginPage from './components/login/Login';
-import WalletPage from "./components/wallet/Wallet";
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import LoginPage from './components/login/Login'
+import WalletPage from './components/wallet/Wallet'
 
-const history = createBrowserHistory();
+const history = createBrowserHistory()
 
-
-function App() {
-
-  if (localStorage.getItem("sc") === null) {
-    history.push('/login');
+function App () {
+  if (localStorage.getItem('sk') === null) {
+    history.push('/login')
   } else {
-    history.push('/wallet');
+    history.push('/wallet')
   }
-
-
   return (
-
     <BrowserRouter history={history}>
       <div className="router">
         <Switch>
@@ -26,7 +21,7 @@ function App() {
         </Switch>
       </div>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
