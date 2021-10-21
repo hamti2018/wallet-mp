@@ -59,7 +59,8 @@ const Wallet = ({ history }) => {
                 <div className="wallet__header"> Кошелёк</div>
                 <button
                 onClick={() => {
-                  localStorage.removeItem('sc')
+                  localStorage.removeItem('sk')
+				  localStorage.removeItem('pkh')
                   history.push('/login')
                 }}
                 className="wallet__exit">
