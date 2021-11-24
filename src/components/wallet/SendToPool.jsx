@@ -19,9 +19,10 @@ const SendToPool = ({ poolCard, setPoolCard }) => {
     const decryptedSc = CryptoJS.AES.decrypt(encryptedSc, inputPassword)
     const sk = decryptedSc.toString(CryptoJS.enc.Utf8)
     const pkh = localStorage.getItem('pkh')
+    const pk = localStorage.getItem('pk')
 
     try {
-      await mpapi.rpc.setDelegate(pkh, { sk, pkh }, BAKER_ADDRESS, 1)
+      await mpapi.rpc.setDelegate(pkh, { sk, pkh, pk }, BAKER_ADDRESS, 1)
       toast.success('Успешно делегировано', {
         style: {
           fontSize: '14px',
@@ -73,7 +74,7 @@ const SendToPool = ({ poolCard, setPoolCard }) => {
           <div className="token-modal__inputs">
             <div className="token-modal__about">
               {BAKER_ADDRESS}
-              </div>
+            </div>
             <div className="token-modal__input token-modal__input_long">
               <span className="token-modal__text">Введите пароль</span>
               <input
@@ -88,9 +89,7 @@ const SendToPool = ({ poolCard, setPoolCard }) => {
           <button
             onClick={async () => {
               if (!passwordError && passwordFocus) {
-                console.log('click')
                 await connect(inputPassword)
-                console.log('click')
                 setPoolCard(false)
                 setInputPassword('')
                 setPasswordFocus(false)

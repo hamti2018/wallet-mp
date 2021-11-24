@@ -17,7 +17,7 @@ const Wallet = ({ history }) => {
   const [pkh, setPkh] = useState('Address')
 
   useEffect(() => {
-    async function updateBalance () {
+    async function updateBalance() {
       if (pkh === 'Address') return
       const mineBalance = utility.totez(await mpapi.rpc.getMineBalance(pkh))
       const plexBalance = utility.totez(await mpapi.rpc.getPlexBalance(pkh))
@@ -49,38 +49,39 @@ const Wallet = ({ history }) => {
 
   return (
 
-        <div className="wrapper">
-            <Toaster />
-            <SendToPool
-                poolCard={poolCard}
-                setPoolCard={setPoolCard}
-            />
-            <div className="wallet">
-                <div className="wallet__header"> Кошелёк</div>
-                <button
-                onClick={() => {
-                  localStorage.removeItem('sk')
-				  localStorage.removeItem('pkh')
-                  history.push('/login')
-                }}
-                className="wallet__exit">
-                    Выход
-                </button>
-                <div className="wallet__cards">
-                    <TokenCard
-                        name={'MINE'}
-                        balance={mineBalance}
-                        link={pkh}
-                    />
-                    <TokenCard
-                        name={'PLEX'}
-                        balance={plexBalance}
-                        link={pkh}
-                    />
-                </div>
-                <button onClick={() => setPoolCard(!poolCard)} className="wallet__button">Отправить в Pool</button>
-            </div>
+    <div className="wrapper">
+      <Toaster />
+      <SendToPool
+        poolCard={poolCard}
+        setPoolCard={setPoolCard}
+      />
+      <div className="wallet">
+        <div className="wallet__header"> Кошелёк</div>
+        <button
+          onClick={() => {
+            localStorage.removeItem('sk')
+            localStorage.removeItem('pkh')
+            localStorage.removeItem('pk')
+            history.push('/login')
+          }}
+          className="wallet__exit">
+          Выход
+        </button>
+        <div className="wallet__cards">
+          <TokenCard
+            name={'MINE'}
+            balance={mineBalance}
+            link={pkh}
+          />
+          <TokenCard
+            name={'PLEX'}
+            balance={plexBalance}
+            link={pkh}
+          />
         </div>
+        <button onClick={() => setPoolCard(!poolCard)} className="wallet__button">Отправить в Pool</button>
+      </div>
+    </div>
   )
 }
 

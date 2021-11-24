@@ -16,18 +16,22 @@ const Login = ({ history }) => {
   function login (secretkey, password) {
     let sk
     let pkh
+    let pk
     if (mpapi.crypto.validateMnemonic(secretkey)) {
       const keys = mpapi.crypto.generateKeys(secretkey)
       sk = keys.sk
       pkh = keys.pkh
+      pk = keys.pk
     } else if (mpapi.crypto.extractKeys(secretkey)) {
       const keys = mpapi.crypto.extractKeys(secretkey)
       sk = keys.sk
       pkh = keys.pkh
+      pk = keys.pk
     } else {
       return false
     }
     localStorage.setItem('pkh', pkh)
+    localStorage.setItem('pk', pk)
     localStorage.setItem('sk', AES.encrypt(sk, password))
     history.push('/wallet')
   }

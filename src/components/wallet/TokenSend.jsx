@@ -28,6 +28,7 @@ const TokenSend = ({ header, sum, tokenSend, setTokenSend }) => {
     const encryptedSc = localStorage.getItem('sk')
     const decryptedSc = CryptoJS.AES.decrypt(encryptedSc, inputPassword)
     const pkh = localStorage.getItem('pkh')
+    const pk = localStorage.getItem('pk')
     try {
       sk = decryptedSc.toString(CryptoJS.enc.Utf8)
     } catch (e) {
@@ -35,7 +36,7 @@ const TokenSend = ({ header, sum, tokenSend, setTokenSend }) => {
     }
 
     if (header === 'MINE') {
-      await toast.promise(mpapi.rpc.mine_transfer(pkh, { sk, pkh }, inputAddress, +inputValue, 1), {
+      await toast.promise(mpapi.rpc.mine_transfer(pkh, { sk, pkh, pk }, inputAddress, +inputValue, 1), {
         loading: 'Подождите...',
         error: 'Ошибка при провередение транзакции... Попробуйте еще раз.',
         success: 'Транзакция успешно. Фактически перевод может идти от 2х до 20ти минут',
@@ -47,7 +48,7 @@ const TokenSend = ({ header, sum, tokenSend, setTokenSend }) => {
         }
       })
     } else if (header === 'PLEX') {
-      await toast.promise(mpapi.rpc.plex_transfer(pkh, { sk, pkh }, inputAddress, +inputValue, 1), {
+      await toast.promise(mpapi.rpc.plex_transfer(pkh, { sk, pkh, pk }, inputAddress, +inputValue, 1), {
         loading: 'Подождите...',
         error: 'Ошибка при провередение транзакции... Попробуйте еще раз.',
         success: 'Транзакция успешно. Фактически перевод может идти от 2х до 20ти минут',
@@ -62,7 +63,7 @@ const TokenSend = ({ header, sum, tokenSend, setTokenSend }) => {
   }
 
   function valueValidation(value) {
-    value = value.replace(',', '.')
+    value = value.toString().replace(',', '.')
     const valueСheck = (/^\d{1,100}(\.\d{1,100})?$/).test(value)
     if (valueСheck) {
       if (parseFloat(value) < 1) {
@@ -139,7 +140,10 @@ const TokenSend = ({ header, sum, tokenSend, setTokenSend }) => {
                 onFocus={() => { setValueFocus(true) }}
                 className={!valueError ? 'token-modal__getter' : 'token-modal__getter token-modal__getter_error'}
               />
-              <button onClick={() => setInputValue(sum)} className="token-modal__increase">MAX</button>
+              <button onClick={() => {
+                console.log(sum)
+                setInputValue(sum)
+              }} className="token-modal__increase">MAX</button>
               <div className={!valueError ? 'none-display' : 'token-modal__text token-modal__error'}>{valueMessage}</div>
             </div>
             <div className="token-modal__input token-modal__input_long">
